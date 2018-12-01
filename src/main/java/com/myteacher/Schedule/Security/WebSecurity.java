@@ -14,9 +14,8 @@ import java.util.Arrays;
 
 import static com.myteacher.Schedule.Security.SecurityConstants.RELOAD_URL;
 
-
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
