@@ -3,12 +3,85 @@ package com.myteacher.Schedule.Models;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+
 public class Slot {
     @Id
     private ObjectId _id;
     private String date;
     private String hour;
     private String username;
+    private String classId;
+    private String classType;
+    private String classLevel;
+    private String classDescription;
+    private int capacity;
+    private ArrayList<String> students;
+
+
+    public Slot(ObjectId _id, String date, String hour, String username, String classId, String classLevel, String classType, String classDescription, int capacity, ArrayList<String> students) {
+        this._id = _id;
+        this.date = date;
+        this.hour = hour;
+        this.username = username;
+        this.classId = classId;
+        this.classLevel = classLevel;
+        this.classType = classType;
+        this.classDescription = classDescription;
+        this.capacity = capacity;
+        this.students = students;
+    }
+
+    public String getClassId() {
+        return classId;
+    }
+
+    public void setClassId(String classId) {
+        this.classId = classId;
+    }
+
+    public String getClassLevel() {
+        return classLevel;
+    }
+
+    public void setClassLevel(String classLevel) {
+       this.classLevel = classLevel;
+    }
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType;
+    }
+
+    public String getClassDescription() {
+        return classDescription;
+    }
+
+    public void setClassDescription(String classDescription) {
+        this.classDescription = classDescription;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public ArrayList<String> getStudents() {
+        return students;
+
+    }
+
+    public void setStudents(ArrayList<String> students) {
+        this.students = students;
+    }
 
     public ObjectId get_id() {
         return _id;
