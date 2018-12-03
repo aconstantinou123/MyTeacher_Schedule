@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,16 @@ public class SlotController {
     @PreAuthorize("hasAuthority('TEACHER')")
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public List<Slot> getByUserName(@PathVariable("username") String username){
-        System.out.println("username " + username);
         return slotRepository.findAllByUsername(username);
+    }
+
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public List<Slot> createNewSlot(@RequestBody List<Slot> slots){
+        for(Slot slot : slots){
+            slot.setStudents(new ArrayList<String>());
+        }
+        slotRepository.saveAll(slots);
+        return slotRepository.findAllByUsername(slots.get(0).getUsername());
     }
 }

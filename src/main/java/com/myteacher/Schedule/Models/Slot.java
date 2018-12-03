@@ -20,6 +20,7 @@ public class Slot {
     private int capacity;
     private ArrayList<String> students;
 
+    public Slot(){};
 
     public Slot(ObjectId _id, String date, String hour, String username, String classId, String classLevel, String classType, String classDescription, int capacity, ArrayList<String> students) {
         this._id = _id;
