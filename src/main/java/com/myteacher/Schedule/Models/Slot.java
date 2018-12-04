@@ -19,10 +19,12 @@ public class Slot {
     private String classDescription;
     private int capacity;
     private ArrayList<String> students;
+    private String startTime;
+    private String endTime;
 
     public Slot(){};
 
-    public Slot(ObjectId _id, String date, String hour, String username, String classId, String classLevel, String classType, String classDescription, int capacity, ArrayList<String> students) {
+    public Slot(ObjectId _id, String date, String hour, String username, String classId, String classLevel, String classType, String classDescription, int capacity, ArrayList<String> students, String startTime, String endTime) {
         this._id = _id;
         this.date = date;
         this.hour = hour;
@@ -33,6 +35,25 @@ public class Slot {
         this.classDescription = classDescription;
         this.capacity = capacity;
         this.students = students;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public String getStartTime() {
+        
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getClassId() {

@@ -21,7 +21,7 @@ public class SlotTest {
         id = new ObjectId("507f1f77bcf86cd799439011");
         ArrayList <String> students = new ArrayList<>();
         students.add("trinity123");
-        slot1 = new Slot(id, "Thursday 23rd November 2018", "10:00", "zonio-strings", "abcd-efgh-ijkl-mnop", "ADVANCED", "ONE_ON_ONE", "Exam prep", 1, students);
+        slot1 = new Slot(id, "Thursday 23rd November 2018", "10:00", "zonio-strings", "abcd-efgh-ijkl-mnop", "ADVANCED", "ONE_ON_ONE", "Exam prep", 1, students, "12:00", "13:00");
     }
 
     @Test
