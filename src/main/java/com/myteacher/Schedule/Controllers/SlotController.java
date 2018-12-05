@@ -43,8 +43,9 @@ public class SlotController {
     @RequestMapping(value="/update", method = RequestMethod.PUT)
     public List<Slot> updateClass(@RequestBody List<Slot> slots){
         slotRepository.deleteAllByClassId(slots.get(0).getClassId());
+        ArrayList<String> students = slots.get(0).getStudents();
         for(Slot slot : slots){
-            slot.setStudents(new ArrayList<String>());
+            slot.setStudents(students);
         }
         slotRepository.saveAll(slots);
         return slotRepository.findAllByUsername(slots.get(0).getUsername());

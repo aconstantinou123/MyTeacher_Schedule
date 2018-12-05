@@ -2,7 +2,8 @@ package com.myteacher.Schedule.Models;
 
 public enum ClassType {
     ONE_ON_ONE("One one one"),
-    GROUP("Group");
+    GROUP("Group"),
+    OPEN_SLOT("Open Slot");
 
     final String type;
 
