@@ -38,4 +38,15 @@ public class SlotController {
         slotRepository.saveAll(slots);
         return slotRepository.findAllByUsername(slots.get(0).getUsername());
     }
+
+    @PreAuthorize("hasAuthority('TEACHER')")
+    @RequestMapping(value="/update", method = RequestMethod.PUT)
+    public List<Slot> updateClass(@RequestBody List<Slot> slots){
+        slotRepository.deleteAllByClassId(slots.get(0).getClassId());
+        for(Slot slot : slots){
+            slot.setStudents(new ArrayList<String>());
+        }
+        slotRepository.saveAll(slots);
+        return slotRepository.findAllByUsername(slots.get(0).getUsername());
+    }
 }

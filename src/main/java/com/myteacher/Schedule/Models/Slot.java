@@ -40,7 +40,6 @@ public class Slot {
     }
 
     public String getStartTime() {
-        
         return startTime;
     }
 
