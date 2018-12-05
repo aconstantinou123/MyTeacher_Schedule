@@ -40,6 +40,13 @@ public class SlotController {
     }
 
     @PreAuthorize("hasAuthority('TEACHER')")
+    @RequestMapping(value = "/{username}/{classId}", method = RequestMethod.DELETE)
+    public List<Slot> deleteSlotByClassId(@PathVariable("classId") String classId, @PathVariable("username") String username){
+        slotRepository.deleteAllByClassId(classId);
+        return slotRepository.findAllByUsername(username);
+    }
+
+    @PreAuthorize("hasAuthority('TEACHER')")
     @RequestMapping(value="/update", method = RequestMethod.PUT)
     public List<Slot> updateClass(@RequestBody List<Slot> slots){
         slotRepository.deleteAllByClassId(slots.get(0).getClassId());

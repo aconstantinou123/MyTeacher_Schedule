@@ -1,6 +1,7 @@
 package com.myteacher.Schedule.Models;
 
 public enum ClassLevel {
+    NONE_SPECIFIED("None Specified"),
     BEGINNER("Beginner"),
     ELEMENTARY("Elementary"),
     PRE_INT("Pre-intermediate"),
