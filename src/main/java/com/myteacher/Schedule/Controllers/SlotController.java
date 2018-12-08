@@ -17,19 +17,19 @@ public class SlotController {
     @Autowired
     SlotRepository slotRepository;
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<Slot> getAllSlots() {
         return slotRepository.findAll();
     }
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public List<Slot> getByUserName(@PathVariable("username") String username){
         return slotRepository.findAllByUsername(username);
     }
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public List<Slot> createNewSlot(@RequestBody List<Slot> slots){
         for(Slot slot : slots){
@@ -39,14 +39,15 @@ public class SlotController {
         return slotRepository.findAllByUsername(slots.get(0).getUsername());
     }
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
+    
     @RequestMapping(value = "/{username}/{classId}", method = RequestMethod.DELETE)
     public List<Slot> deleteSlotByClassId(@PathVariable("classId") String classId, @PathVariable("username") String username){
         slotRepository.deleteAllByClassId(classId);
         return slotRepository.findAllByUsername(username);
     }
 
-    @PreAuthorize("hasAuthority('TEACHER')")
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value="/update", method = RequestMethod.PUT)
     public List<Slot> updateClass(@RequestBody List<Slot> slots){
         slotRepository.deleteAllByClassId(slots.get(0).getClassId());
