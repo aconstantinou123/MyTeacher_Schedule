@@ -12,5 +12,6 @@ import java.util.List;
 public interface SlotRepository extends MongoRepository<Slot, String> {
     List<Slot> findAllByUsername(String username);
     List<Slot> findAllByClassId(String classId);
+    List<Slot> findAllByClassLevel(String level);
     void deleteAllByClassId(String classId);
 }

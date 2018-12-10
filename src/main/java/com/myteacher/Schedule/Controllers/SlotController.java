@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -57,5 +60,27 @@ public class SlotController {
         }
         slotRepository.saveAll(slots);
         return slotRepository.findAllByUsername(slots.get(0).getUsername());
+    }
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @RequestMapping(value = "/slots/{classLevel}", method = RequestMethod.GET)
+    public List<Slot> getSlotsByLevel(@PathVariable("classLevel") String classLevel){
+        List<Slot> slotsToReturn = new ArrayList<>();
+        List<Slot> slotsFound = slotRepository.findAllByClassLevel(classLevel);
+        List<Slot> unspecifiedSlots = slotRepository.findAllByClassLevel("NONE_SPECIFIED");
+        slotsFound.addAll(unspecifiedSlots);
+        for(Slot slot : slotsFound){
+            try{
+                String dateAndTime = slot.getDate() + " " + slot.getStartTime();
+                if (new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(dateAndTime).after(new Date())) {
+                    slotsToReturn.add(slot);
+                }
+
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
+        }
+        return slotsToReturn;
     }
 }
