@@ -104,6 +104,10 @@ public class Slot {
         this.students = students;
     }
 
+    public void addStudent(String student){
+        students.add(student);
+    }
+
     public ObjectId get_id() {
         return _id;
     }

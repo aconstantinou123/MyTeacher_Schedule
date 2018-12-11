@@ -4,18 +4,27 @@ package com.myteacher.Schedule.Controllers;
 import com.myteacher.Schedule.Models.Slot;
 import com.myteacher.Schedule.Repositories.SlotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import static com.myteacher.Schedule.Security.SecurityConstants.HEADER_STRING;
+import static com.myteacher.Schedule.Security.SecurityConstants.TOKEN_PREFIX;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin(origins = "http://localhost:8080", allowedHeaders = "*")
 public class SlotController {
     @Autowired
     SlotRepository slotRepository;
@@ -61,6 +70,31 @@ public class SlotController {
         slotRepository.saveAll(slots);
         return slotRepository.findAllByUsername(slots.get(0).getUsername());
     }
+
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @RequestMapping(value="/book-slot", method = RequestMethod.PUT)
+    public String bookSlot(@RequestBody Map<String, String> usernameObject, @CookieValue("studentToken") String studentToken){
+        String username = usernameObject.get("username");
+        String classId = usernameObject.get("classId");
+        List<Slot> slotsToUpdate = slotRepository.findAllByClassId(classId);
+        for(Slot slot : slotsToUpdate){
+            slot.addStudent(username);
+        }
+        slotRepository.saveAll(slotsToUpdate);
+        WebClient client = WebClient.builder()
+                .baseUrl("http://localhost:3004")
+                .defaultHeader(HEADER_STRING, TOKEN_PREFIX + studentToken)
+                .build();
+        WebClient.RequestBodySpec uri = client
+                .method(HttpMethod.GET)
+                .uri("/slots/" + slotsToUpdate.get(0).getClassLevel());
+        String response = uri.retrieve()
+                                .bodyToMono(String.class)
+                                .block();
+        return response;
+    }
+
 
     @PreAuthorize("hasRole('STUDENT')")
     @RequestMapping(value = "/slots/{classLevel}", method = RequestMethod.GET)
