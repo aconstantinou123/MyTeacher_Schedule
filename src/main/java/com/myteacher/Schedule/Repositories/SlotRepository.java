@@ -13,5 +13,6 @@ public interface SlotRepository extends MongoRepository<Slot, String> {
     List<Slot> findAllByUsername(String username);
     List<Slot> findAllByClassId(String classId);
     List<Slot> findAllByClassLevel(String level);
+    List<Slot> findAllByStudentsContaining(String username);
     void deleteAllByClassId(String classId);
 }

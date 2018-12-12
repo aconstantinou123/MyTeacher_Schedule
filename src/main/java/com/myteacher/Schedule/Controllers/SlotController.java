@@ -8,11 +8,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -95,6 +91,26 @@ public class SlotController {
         return response;
     }
 
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @RequestMapping(value = "/expired-slots/{username}", method = RequestMethod.GET)
+    public List<Slot> getExpiredSlotsByUsername(@PathVariable("username") String username){
+        List<Slot> slotsToReturn = new ArrayList<>();
+        List<Slot> slotsFound = slotRepository.findAllByStudentsContaining(username);
+        for(Slot slot : slotsFound){
+            try{
+                String dateAndTime = slot.getDate() + " " + slot.getStartTime();
+                if (new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(dateAndTime).before(new Date())) {
+                    slotsToReturn.add(slot);
+                }
+
+            }
+            catch (ParseException e){
+                e.printStackTrace();
+            }
+        }
+        return slotsToReturn;
+    }
 
     @PreAuthorize("hasRole('STUDENT')")
     @RequestMapping(value = "/slots/{classLevel}", method = RequestMethod.GET)
